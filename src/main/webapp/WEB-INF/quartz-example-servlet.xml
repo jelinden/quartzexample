@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+  <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="sendMailJob"/>
+    <property name="cronExpression" value="50 1,16,31,46 * * * ?"/>
+    <property name="priority" value="5"/>
+    <property name="timeZone" ref="timeZone"/>
+  </bean>
+  
+  <bean name="sendMailJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+    <property name="jobClass" value="fi.example.quartzexample.service.SendMailJob"/>
+    <property name="jobDataAsMap">
+      <map>
+        <entry key="sendMailService" value-ref="sendMailService"/>
+      </map>
+    </property>
+  </bean>
+  
+  <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    <property name="autoStartup">
+      <value>true</value>
+    </property>
+    <property name="quartzProperties">
+      <props>
+        <prop key="org.quartz.scheduler.instanceName">stmScheduler</prop>
+        <prop key="org.quartz.scheduler.rmi.export">false</prop>
+        <prop key="org.quartz.scheduler.rmi.proxy">false</prop>
+        <prop key="org.quartz.scheduler.wrapJobExecutionInUserTransaction">false</prop>
+        <prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
+        <prop key="org.quartz.threadPool.threadCount">3</prop>
+        <prop key="org.quartz.threadPool.threadPriority">5</prop>
+        <prop key="org.quartz.threadPool.threadsInheritContextClassLoaderOfInitializingThread">true</prop>
+        <prop key="org.quartz.jobStore.misfireThreshold">6000</prop>
+        <prop key="org.quartz.jobStore.class">org.quartz.simpl.RAMJobStore</prop>
+      </props>
+    </property>
+    <property name="triggers">
+      <list>
+        <ref bean="cronTrigger"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="timeZone" class="java.util.TimeZone" factory-method="getTimeZone">
+	  <constructor-arg value="America/New York"/>
+	</bean>
+	
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+    <property name="prefix" value="/WEB-INF/jsp/" />
+    <property name="suffix" value=".jsp" />
+  </bean>
+  
+</beans>

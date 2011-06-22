@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+  default-autowire="byName">
+  
+  <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+    <property name="host" value=""/> <!-- FILL IN YOUR SMTP HOST -->
+    <property name="port" value="25"/>
+    <property name="defaultEncoding" value="UTF-8"/>
+    <property name="javaMailProperties">
+      <props>
+        <!-- Use SMTP transport protocol -->
+        <prop key="mail.transport.protocol">smtp</prop>
+        <!-- Use SMTP-AUTH to authenticate to SMTP server -->
+        <prop key="mail.smtps.auth">true</prop>
+        <prop key="mail.debug">true</prop>
+        <!-- prop key="mail.mime.charset">UTF-8</prop> -->
+        <prop key="mail.smtp.allow8bitmime">true</prop>
+      </props>
+    </property>
+  </bean>
+       
+  <bean id="sendMailService" class="fi.example.quartzexample.service.MailServiceImpl">
+    <property name="mailSender" ref="mailSender"/>
+    <property name="from" value=""/><!-- FILL IN YOUR MAIL SENDER ADDRESS -->
+    <property name="to" value=""/><!-- FILL IN THE ADDRESS YOU WANT TO SEND MAIL TO -->
+  </bean>
+  
+</beans>
