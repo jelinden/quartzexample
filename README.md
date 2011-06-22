@@ -9,5 +9,5 @@ To use it you need to fill out following lines to applicationContext.xml and app
 
 and
 
-`<property name="from" value=""/><!-- FILL IN YOUR MAIL SENDER ADDRESS -->`
+`<property name="from" value=""/><!-- FILL IN YOUR MAIL SENDER ADDRESS -->`  
 `<property name="to" value=""/><!-- FILL IN THE ADDRESS YOU WANT TO SEND MAIL TO -->`
