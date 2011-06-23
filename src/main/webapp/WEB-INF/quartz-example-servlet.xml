@@ -4,7 +4,7 @@
 
   <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
     <property name="jobDetail" ref="sendMailJob"/>
-    <property name="cronExpression" value="50 1,16,31,46 * * * ?"/>
+    <property name="cronExpression" value="50 52 1 * * ?"/>
     <property name="priority" value="5"/>
     <property name="timeZone" ref="timeZone"/>
   </bean>
@@ -43,8 +43,8 @@
     </property>
   </bean>
   
-  <bean id="timeZone" class="java.util.TimeZone" factory-method="getTimeZone">
-	  <constructor-arg value="America/New York"/>
+  <bean id="timeZone" class="fi.example.quartzexample.tools.JodaTimeZone" factory-method="getTimeZone">
+	  <constructor-arg value="America/New_York"/>
 	</bean>
 	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
